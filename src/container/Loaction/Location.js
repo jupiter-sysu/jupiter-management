@@ -14,13 +14,13 @@ const Container = styled.div`
 type PropType = {
 }
 
-function Task(props: PropType) {
+function Location(props: PropType) {
   console.log('hi', props);
   return (
     <Container>
-      <p>任务</p>
+      <p>目的地</p>
     </Container>
   );
 }
 
-export default Task;
+export default Location;

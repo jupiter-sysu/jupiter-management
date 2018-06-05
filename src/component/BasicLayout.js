@@ -25,7 +25,7 @@ function Test(props: PropType) {
   return (
     <Layout className="layout">
       <Header style={{ display: 'flex', flexDirection: 'row' }}>
-        <HeaderTitle>民兵管理系统</HeaderTitle>
+        <HeaderTitle>木星管理后台</HeaderTitle>
         <Menu
           theme="dark"
           mode="horizontal"
@@ -35,15 +35,11 @@ function Test(props: PropType) {
              console.log(props, item.key);
               switch (item.key) {
                   case '1': {
-                      history.push('/task');
+                      history.push('/experience');
                       break;
                   }
                   case '2': {
-                      history.push('/personnel');
-                      break;
-                  }
-                  case '3': {
-                      history.push('/message');
+                      history.push('/location');
                       break;
                   }
                   default:
@@ -51,9 +47,8 @@ function Test(props: PropType) {
               }
           }}
         >
-          <Menu.Item key="1">任务管理</Menu.Item>
-          <Menu.Item key="2">人事管理</Menu.Item>
-          <Menu.Item key="3">消息管理</Menu.Item>
+          <Menu.Item key="1">玩法管理</Menu.Item>
+          <Menu.Item key="2">目的地管理</Menu.Item>
         </Menu>
       </Header>
       <Content style={{ padding: '0 50px' }}>

@@ -14,13 +14,13 @@ const Container = styled.div`
 type PropType = {
 }
 
-function Personnel(props: PropType) {
+function Experience(props: PropType) {
   console.log('hi', props);
   return (
     <Container>
-      <p>人事</p>
+      <p>体验</p>
     </Container>
   );
 }
 
-export default Personnel;
+export default Experience;

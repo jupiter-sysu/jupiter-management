@@ -12,20 +12,16 @@ const TestScreen = Loadable({
   loading: () => (<p>loading...</p>),
 });
 
-const TaskScreen = Loadable({
-  loader: () => import('./container/Task/Task'),
+const ExperienceScreen = Loadable({
+  loader: () => import('./container/Experience/Experience'),
   loading: () => (<p>loading...</p>),
 });
 
-const PersonnelScreen = Loadable({
-  loader: () => import('./container/Personnel/Personnel'),
+const LocationScreen = Loadable({
+  loader: () => import('./container/Loaction/Location'),
   loading: () => (<p>loading...</p>),
 });
 
-const MessageScreen = Loadable({
-  loader: () => import('./container/Message/Message'),
-  loading: () => (<p>loading...</p>),
-});
 
 class AppRouter extends React.Component {
   constructor(props) {
@@ -37,10 +33,9 @@ class AppRouter extends React.Component {
       <Router history={history}>
         <Switch>
           <BasicLayout>
-            <Route exact path="/task" component={TaskScreen} />
-            <Route exact path="/personnel" component={PersonnelScreen} />
-            <Route exact path="/message" component={MessageScreen} />
-            <Redirect to="/task" />
+            <Route exact path="/experience" component={ExperienceScreen} />
+            <Route exact path="/location" component={LocationScreen} />
+            <Redirect to="/experience" />
           </BasicLayout>
         </Switch>
       </Router>
