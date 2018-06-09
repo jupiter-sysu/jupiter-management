@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import styled from 'styled-components';
+import CHForm from './components/CHForm';
 
 
 // 样式模块，直接用css书写
@@ -18,8 +19,9 @@ function Experience(props: PropType) {
   console.log('hi', props);
   return (
     <Container>
-      <p>体验</p>
+      <CHForm></CHForm>
     </Container>
+    
   );
 }
 
