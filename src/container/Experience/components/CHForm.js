@@ -1,9 +1,8 @@
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
 import React from 'react';
+import { inject, observer } from 'mobx-react';
 
 const FormItem = Form.Item;
-const Option = Select.Option;
-const AutoCompleteOption = AutoComplete.Option;
 
 const foodF3 = [{
   value: '全部',
@@ -245,10 +244,11 @@ const statusOptions = [
   },
 ];
 
-class RegistrationForm extends React.Component {
-  state = {
-    autoCompleteResult: [],
-  };
+@inject(stores => ({
+  experience: stores.experience,
+}))
+@observer
+class SearchForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -265,16 +265,17 @@ class RegistrationForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
 
     const formItemLayout = {
       labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
+        xs: { span: 4 },
+        sm: { span: 4 },
+        md: { span: 6 },
       },
       wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
+        xs: { span: 20 },
+        sm: { span: 20 },
+        md: { span: 18 },
       },
     };
     const tailFormItemLayout = {
@@ -287,15 +288,18 @@ class RegistrationForm extends React.Component {
           span: 16,
           offset: 8,
         },
+        md: {
+          span: 8,
+          offset: 16,
+        },
       },
     };
 
-    const websiteOptions = autoCompleteResult.map(website => (
-      <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-    ));
-
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form
+        onSubmit={this.handleSubmit}
+        layout="horizontal"
+      >
         <FormItem {...formItemLayout} label="玩法编号" >
           {getFieldDecorator('id')(<Input />)}
         </FormItem>
@@ -317,18 +321,16 @@ class RegistrationForm extends React.Component {
         </FormItem>
 
         <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">查询</Button>
-        </FormItem>
-
-        <FormItem {...tailFormItemLayout}>
+          <Button type="primary" htmlType="submit" style={{ marginRight: 20 }}>查询</Button>
           <Button onClick={this.handleReset}>重置</Button>
         </FormItem>
-
       </Form>
     );
   }
 }
 
-const WrappedRegistrationForm = Form.create()(RegistrationForm);
+const SearchExperienceForm = Form.create()(SearchForm);
 
-export default WrappedRegistrationForm;
+export default SearchExperienceForm;
+
+// style = {{ marginLeft: 300, marginRight: 20,}
