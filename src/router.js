@@ -35,7 +35,8 @@ class AppRouter extends React.Component {
           <BasicLayout>
             <Route exact path="/experience" component={ExperienceScreen} />
             <Route exact path="/location" component={LocationScreen} />
-            <Redirect to="/experience" />
+            <Route exact path="/test" component={TestScreen} />
+            {/* <Redirect to="/experience" /> */}
           </BasicLayout>
         </Switch>
       </Router>
