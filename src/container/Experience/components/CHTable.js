@@ -1,8 +1,7 @@
 import { Table } from 'antd';
-import reqwest from 'reqwest';
 import React from 'react';
-import { inject, observer, } from 'mobx-react';
-import stores from '../../../store';
+import { inject, observer } from 'mobx-react';
+import simpleFetch from '../../../utils/simpleFetch';
 
 const columns = [{
   title: '玩法编号',
@@ -14,8 +13,11 @@ const columns = [{
   title: '点赞次数',
   dataIndex: 'like_num',
 }, {
-  title: '所属地区',
-  dataIndex: 'country_id',
+  title: '国家',
+  dataIndex: 'country_name',
+}, {
+  title: '城市',
+  dataIndex: 'city_name',
 }, {
   title: 'F1',
   dataIndex: 'experience_feature1',
@@ -32,37 +34,32 @@ const columns = [{
 }))
 @observer
 class CHTable extends React.Component {
-
-  experience = this.props.experience;
-
   state = {
     pagination: {},
     loading: false,
   };
-  handleTableChange = (pagination, filters, sorter) => {
+
+  componentWillMount() {
+    this.fetch(1);
+  }
+
+  experience = this.props.experience;
+
+  handleTableChange = (pagination) => {
     const pager = { ...this.state.pagination };
     pager.current = pagination.current;
     this.setState({
       pagination: pager,
     });
-    this.fetch({
-      results: pagination.pageSize,
-      page: pagination.current,
-      sortField: sorter.field,
-      sortOrder: sorter.order,
-      ...filters,
-    });
+    this.fetch(pagination.current);
   }
-  fetch = () => {
+
+  fetch = (currentPage) => {
     this.setState({ loading: true });
-    reqwest({
-      url: 'https://dsn.apizza.net/mock/d219e15359947f0ce7411b7b91fd5668/data/obtain/experience_list',
-      method: 'post',
-      data: {
-        page: 1,
-      },
-      type: 'json',
-    }).then((data) => {
+    simpleFetch(
+      '/data/obtain/experience_list/',
+      { page: currentPage },
+    ).then((data) => {
       console.log(data);
       const pagination = { ...this.state.pagination };
       pagination.total = data.data.page_sum * 10;
@@ -70,21 +67,23 @@ class CHTable extends React.Component {
         loading: false,
         pagination,
       });
-      this.experience.setData(data.data.items);
-      this.experience.dataSource.map((item) => {
-        console.log(item);
-      })
+      console.log("表格数据列表: \n", data.data.items);
+      const dataSource = data.data.items.map((item) => {
+        item['country_name'] = this.experience.countryList[item.country_id]['name'];
+        item['city_name'] = this.experience.countryList[item.country_id]['city'][item.city_id];
+        return item;
+      });
+      console.log("添加了国家名字的列表: \n " , dataSource);
+      this.experience.setData(dataSource);
     });
   }
-  componentDidMount() {
-    this.fetch();
-  }
+
   render() {
     return (
       <Table
         columns={columns}
         rowKey={record => record.experience_id}
-        dataSource={this.experience.dataSource}
+        dataSource={this.experience.dataSource.slice()}
         pagination={this.state.pagination}
         loading={this.state.loading}
         onChange={this.handleTableChange}
