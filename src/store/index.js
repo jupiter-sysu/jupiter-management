@@ -1,9 +1,9 @@
 import test from './test';
-import location from './location';
+import experience from './experience';
 
 const stores = {
   test,
-  location,
+  experience,
 };
 
 export default stores;

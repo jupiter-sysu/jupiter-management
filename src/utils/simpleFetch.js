@@ -1,12 +1,7 @@
-<<<<<<< HEAD
 // import { Platform } from 'react-native';
 import { message } from 'antd';
 import { SERVER } from '../app-config/nework';
 // import { APP_NAME, APP_VERSION } from '../app-config/basic';
-=======
-import { message } from 'antd';
-import { SERVER } from '../config/nework';
->>>>>>> 221d4161d45ca7bda652b5d3569233dd19af5360
 
 /**
  * 基本 POST 请求
@@ -14,7 +9,6 @@ import { SERVER } from '../config/nework';
  * @param {Object} data - 包体
  */
 
-<<<<<<< HEAD
 function myFetch(url, data) {
   const fullUrl = url.indexOf('http') === -1 ? (SERVER + url) : url;
   const body = JSON.stringify(data);
@@ -65,8 +59,6 @@ function myFetch(url, data) {
 }
 
 
-=======
->>>>>>> 221d4161d45ca7bda652b5d3569233dd19af5360
 function simpleFetch(url, data) {
   const fullUrl = url.indexOf('http') === -1 ? (SERVER + url) : url;
   const body = JSON.stringify(data);

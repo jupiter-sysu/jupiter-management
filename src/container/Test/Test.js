@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
+import './Test';
 import { Upload, Icon, message } from 'antd';
 import styled from 'styled-components';
 import BraftEditor from 'braft-editor';
@@ -63,6 +63,9 @@ class Test extends Component<PropType> {
     }
     return (
       <Container>
+        <div className="container"> 
+
+        </div>
         <Upload {...uploadProps}
           className={'profile-uploader'}
           accept="image/*"
