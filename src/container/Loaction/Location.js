@@ -6,6 +6,7 @@ import { Input } from 'antd';
 import { Avatar } from 'antd';
 import { inject, observer, } from 'mobx-react';
 
+import history from '../../component/History';
 import Country_item from './component/Country_item'
 
 function handleButtonClick(e) {
@@ -60,20 +61,27 @@ type PropType = {
 }
 
 @inject(stores => ({
-  location: stores.location
+  location: stores.location,
+  nav: stores.nav,
 }))
 @observer
 class Location extends Component {
+  componentWillMount() {
+    this.props.nav.changeTab(2);
+  }
+
   componentDidMount() {
     // 请求资源
+    this.props.location.initCurrentPage();
     this.props.location.loadCountryList();
   }
   render (){
     const { location } = this.props;
-    console.log(location);
         const { countrylist } = location;
         const { countrynum } = location;
         const { shownum } = location;
+        const { currentPage } = location;
+        console.log(location.countrysum, location.currentPage);
         if (this.props.location.isCountryIniting) {
             return (
               <text>loading</text>
@@ -94,15 +102,13 @@ class Location extends Component {
             请选择 <Icon type="down" />
           </Button>
         </Dropdown>
-        <Button type="primary" style={{marginLeft: 280}}>查询</Button>
+        <Button type="primary" style={{marginLeft: 380}}>查询</Button>
         <Button style={{marginLeft: 20}}>重置</Button>
       </SearchBar>
       <Country>
         <Button style={{borderStyle: 'dashed', width: 270, height: 313, marginRight: 25, marginBottom: 25}}>+添加</Button>
         {
-          countrylist === null ? [] :
-                        countrylist.map(function(c, index){
-                            if(index < (location === null ? 3 : shownum))
+                        countrylist.slice().map(function(c, index){
                               return <Country_item 
                                       name={countrylist === null ? [] : c.country_name}
                                       id={countrylist === null ? [] : c.country_id}
@@ -114,7 +120,8 @@ class Location extends Component {
       <Loadmore>
         <Button 
           style={{}}
-          onClick={()=>{location.addShownum()}}>
+          disabled={location.currentPage == location.countrysum}
+          onClick={()=>{location.updateCurrentPage()}}>
           加载更多...
         </Button>
       </Loadmore>

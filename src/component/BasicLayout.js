@@ -2,6 +2,7 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
 import styled from 'styled-components';
+import { inject, observer } from 'mobx-react';
 
 import history from '../component/History';
 
@@ -29,7 +30,7 @@ function Test(props: PropType) {
         <Menu
           theme="dark"
           mode="horizontal"
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={this.props.nav.currentTab}
           style={{ lineHeight: '64px' }}
           onClick={(item) => {
              console.log(props, item.key);
@@ -61,4 +62,6 @@ function Test(props: PropType) {
   );
 }
 
-export default Test;
+export default inject(stores=>({
+  nav: stores.nav,
+}))(observer(Test));

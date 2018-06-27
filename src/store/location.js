@@ -4,24 +4,37 @@ import { message } from 'antd';
 
 class locationStore {
     @observable isCountryIniting = false;
-    @observable countrylist = null;
-    @observable countrynum = 0;
-    @observable shownum = 3;
+    @observable countrylist = [];
+    @observable countrysum = 0;
+    @observable currentPage = 1;
     
     @action.bound
-    addShownum(){
-        this.shownum = this.shownum + 4;
+    updateCurrentPage(){
+        this.currentPage = this.currentPage + 1;
+        this.loadCountryList();
+    }
+
+    @action.bound
+    initCurrentPage(){
+        this.currentPage = 1;
+        this.countrylist = [];
     }
 
     @action.bound
     async loadCountryList() {
-        this.isCountryIniting = true;
+        if (this.currentPage === 1)
+        {
+            this.isCountryIniting = true;
+        }
         try{
-            const { data } = await sPost('https://dsn.apizza.net/mock/d219e15359947f0ce7411b7b91fd5668/data/list/country');
+            const { data } = await sPost('/data/list/country/', {
+                page: this.currentPage
+            });
             console.log(data);
             const { page_sum } = data;
             const { items } = data;
-            this.countrylist = data.items;
+            this.countrylist = this.countrylist.concat(data.items);
+            console.log(this.countrylist);
             this.countrysum = data.page_sum;
         }catch(err){
             message.error(err.message);
