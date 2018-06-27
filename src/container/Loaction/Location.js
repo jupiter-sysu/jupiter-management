@@ -3,9 +3,10 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Menu, Dropdown, Button, Icon, message } from 'antd';
 import { Input } from 'antd';
-import { Card, Avatar } from 'antd';
+import { Avatar } from 'antd';
 import { inject, observer, } from 'mobx-react';
-const { Meta } = Card;
+
+import Country_item from './component/Country_item'
 
 function handleButtonClick(e) {
   message.info('Click on left button.');
@@ -24,26 +25,6 @@ const menu = (
     <Menu.Item key="3">3rd item</Menu.Item>
   </Menu>
 );
-
-const Country_item = ({
-
-}) => {
-  return(
-    <Card
-    style={{ width: 270, marginRight: 25}}
-    cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
-    actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
-  >
-    <Meta 
-      style={{ height: 80 }}
-      
-      title="Card title"
-      description="This is the description"
-    />
-    <text>ID: 1</text>
-  </Card>
-  );
-}
 
 // 样式模块，直接用css书写
 const Container = styled.div`
@@ -65,7 +46,14 @@ const Country = styled.div`
   margin-top: 50px;
   display: flex;
   flex-direction: row;
-  flex-wrap: 'wrap';
+  flex-wrap: wrap;
+  
+`;
+//加载更多
+const Loadmore = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content : center;
 `;
 
 type PropType = {
@@ -85,6 +73,7 @@ class Location extends Component {
     console.log(location);
         const { countrylist } = location;
         const { countrynum } = location;
+        const { shownum } = location;
         if (this.props.location.isCountryIniting) {
             return (
               <text>loading</text>
@@ -109,9 +98,26 @@ class Location extends Component {
         <Button style={{marginLeft: 20}}>重置</Button>
       </SearchBar>
       <Country>
-        <Button style={{borderStyle: 'dashed', width: 270, height: 353, marginRight: 25}}>+添加</Button>
-        <Country_item />
+        <Button style={{borderStyle: 'dashed', width: 270, height: 313, marginRight: 25, marginBottom: 25}}>+添加</Button>
+        {
+          countrylist === null ? [] :
+                        countrylist.map(function(c, index){
+                            if(index < (location === null ? 3 : shownum))
+                              return <Country_item 
+                                      name={countrylist === null ? [] : c.country_name}
+                                      id={countrylist === null ? [] : c.country_id}
+                                      photo={countrylist === null ? [] : c.card_img}
+                                      num={countrylist === null ? [] : c.number_of_city}/> 
+                            })
+        }
       </Country>
+      <Loadmore>
+        <Button 
+          style={{}}
+          onClick={()=>{location.addShownum()}}>
+          加载更多...
+        </Button>
+      </Loadmore>
     </Container>
     )
   }

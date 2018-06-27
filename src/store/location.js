@@ -6,7 +6,13 @@ class locationStore {
     @observable isCountryIniting = false;
     @observable countrylist = null;
     @observable countrynum = 0;
+    @observable shownum = 3;
     
+    @action.bound
+    addShownum(){
+        this.shownum = this.shownum + 4;
+    }
+
     @action.bound
     async loadCountryList() {
         this.isCountryIniting = true;
