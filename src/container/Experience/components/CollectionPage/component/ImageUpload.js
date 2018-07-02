@@ -38,24 +38,32 @@ export default class Avatar extends React.Component {
 
   handleChange = (info) => {
     console.log(info);
+    console.log("this.props.isCover", this.props.isCover);
     if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      this.setState({
-        imageUrl: `http://p9alq612u.bkt.clouddn.com/${info.file.response.key}`, 
-      });
+      if (this.props.isCover === 'true') {
+        console.log("jinlai cover shezhi la")
+        this.props.experience.setCoverImageUrl(`http://p9alq612u.bkt.clouddn.com/${info.file.response.key}`);
+      } else {
+        this.props.experience.setCardImageUrl(`http://p9alq612u.bkt.clouddn.com/${info.file.response.key}`);
+        console.log("jinlai card shezhi la")
+      }
     }
   }
   render() {
+    const { Width, Height, isCover } = this.props;
+    console.log("shuitshit ", Width, Height, isCover);
+
     const uploadButton = (
       <div>
         <Icon type={this.state.loading ? 'loading' : 'plus'} />
         <div className="ant-upload-text">Upload</div>
       </div>
     );
-    const imageUrl = this.state.imageUrl;
+    const imageUrl = isCover === 'true' ?  this.props.experience.coverImageUrl : this.props.experience.cardImageUrl;
     return (
-      <div onClick={() => {this.props.experience.getToken()}}>
+      <div style={{ display: "flex", width: Width + 'px', height: Height + 'px', marginRight: 28, marginBottom: 18, }} onClick={() => {this.props.experience.getToken()}}>
         <Upload
+          className="experience__image__upload"
           name="file"
           listType="picture-card"
           showUploadList={false}
@@ -67,10 +75,9 @@ export default class Avatar extends React.Component {
             key: (new Date()).valueOf(),
           }}
         >
-          {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: 200, height: 150 }} /> : uploadButton}
+          {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: (Width-8) + 'px', height: Height + 'px' }} /> : uploadButton}
         </Upload>
       </div>
-      
     );
   }
 }

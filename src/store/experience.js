@@ -40,6 +40,21 @@ class Experience {
       console.log("eerr", err);
     }
   }
+
+  @observable
+  coverImageUrl = '';
+
+  @action.bound
+  setCoverImageUrl(url) {
+    this.coverImageUrl = url;
+  }
+
+  @observable
+  cardImageUrl = '';
+  @action.bound
+  setCardImageUrl(url) {
+    this.cardImageUrl = url;
+  }
 }
 
 const store = new Experience();
