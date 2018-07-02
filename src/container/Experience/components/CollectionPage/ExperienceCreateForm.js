@@ -1,5 +1,6 @@
 import { Modal, Form, Input } from 'antd';
 import React from 'react';
+import ImageUpload from './component/ImageUpload';
 
 const FormItem = Form.Item;
 
@@ -17,6 +18,7 @@ const ExperienceCreateForm = Form.create()(
           onCancel={onCancel}
           onOk={onCreate}
         >
+          <ImageUpload />
           <Form layout="vertical">
             <FormItem label="玩法介绍">
               {getFieldDecorator('experience_introduction', {
@@ -61,47 +63,3 @@ const ExperienceCreateForm = Form.create()(
 );
 
 export default ExperienceCreateForm;
-
-// class CollectionsPage extends React.Component {
-//   state = {
-//     visible: false,
-//   };
-//   showModal = () => {
-//     this.setState({ visible: true });
-//   }
-//   handleCancel = () => {
-//     this.setState({ visible: false });
-//   }
-//   handleCreate = () => {
-//     const form = this.formRef.props.form;
-//     form.validateFields((err, values) => {
-//       if (err) {
-//         return;
-//       }
-
-//       console.log('Received values of form: ', values);
-//       form.resetFields();
-//       this.setState({ visible: false });
-//     });
-//   }
-//   saveFormRef = (formRef) => {
-//     this.formRef = formRef;
-//   }
-//   render() {
-//     return (
-//       <div>
-//         <Button type="primary" onClick={this.showModal}>+ 新建</Button>
-//         <CollectionCreateForm
-//           wrappedComponentRef={this.saveFormRef}
-//           visible={this.state.visible}
-//           onCancel={this.handleCancel}
-//           onCreate={this.handleCreate}
-//         />
-//       </div>
-//     );
-//   }
-// }
-
-// export default CollectionsPage;
-
-// ReactDOM.render(<CollectionsPage />, mountNode);
